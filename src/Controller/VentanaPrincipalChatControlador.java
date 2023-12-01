@@ -69,6 +69,7 @@ public class VentanaPrincipalChatControlador implements ActionListener {
             Map.Entry<String[], String> entry =  new AbstractMap.SimpleEntry<>(ips, ips[1] + " " + LocalDate.now() + ": " + ventanPrincipalChat.txtFldChatPrivado.getText());
             try {
                 servidorMensajes.enviarMensajePrivado(entry);
+                ventanPrincipalChat.txtAreaChatGeneral1.setText("");
                 String[] mensajes = servidorMensajes.obtenerMensajes(ventanPrincipalChat.txtFldIpDestino.getText(), java.net.InetAddress.getLocalHost().getHostAddress());
                 for(String mensaje : mensajes){
                     if(mensaje != null) ventanPrincipalChat.txtAreaChatGeneral1.setText(ventanPrincipalChat.txtAreaChatGeneral1.getText() + "\n" + mensaje + "\n");
