@@ -4,6 +4,7 @@
  */
 package View;
 
+import javax.swing.*;
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -13,7 +14,7 @@ import java.io.Serializable;
  */
 public class VentanPrincipalChat extends javax.swing.JFrame implements Serializable {
     @Serial
-    private static final long serialVersionUID = -1;
+    private static final long serialVersionUID = -2;
 
     /**
      * Creates new form VentanPrincipalChat
@@ -113,7 +114,7 @@ public class VentanPrincipalChat extends javax.swing.JFrame implements Serializa
         lbl.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         lbl.setText("Escribe algo...");
 
-        SerializableGroupLayout layout = new SerializableGroupLayout(getContentPane());
+        GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

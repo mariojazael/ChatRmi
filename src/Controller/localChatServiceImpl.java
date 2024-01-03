@@ -8,9 +8,7 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class localChatServiceImpl extends UnicastRemoteObject implements localChatService, Serializable {
     List<String> mensajes = new ArrayList<>();
@@ -20,15 +18,10 @@ public class localChatServiceImpl extends UnicastRemoteObject implements localCh
     }
 
     @Override
-    public void sendMessage(String message, String destinationIp, String port, VentanPrincipalChat ventanPrincipalChat) throws RemoteException {
-        Objects.requireNonNull(obtenerReferenciaObjetoRemoto(destinationIp, port)).sendMessageStraightForward(message, ventanPrincipalChat);
-    }
-
-    @Override
-    public void sendMessageStraightForward(String message, VentanPrincipalChat ventanPrincipalChat) throws RemoteException {
-        ventanPrincipalChat.txtAreaChatGeneral1.setText(ventanPrincipalChat.txtAreaChatGeneral1.getText() +
-                "\n" + message);
-        deleteMessages();
+    public void sendMessage(String message, String destinationIp, String port) throws RemoteException {
+        localChatServiceImpl localChatService = (localChatServiceImpl) obtenerReferenciaObjetoRemoto(destinationIp, port);
+        assert localChatService != null;
+        localChatService.mensajes.add(message);
     }
 
     @Override

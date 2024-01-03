@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
 public class VentanaPrincipalChatControlador implements ActionListener {
     @Serial
     private static final long serialVersionUID = -1;
-    VentanPrincipalChat ventanPrincipalChat;
+    public VentanPrincipalChat ventanPrincipalChat;
     ServidorMensajes servidorMensajes;
     localChatService localChatService;
     ExecutorService executorService = Executors.newFixedThreadPool(1);
@@ -94,8 +94,7 @@ public class VentanaPrincipalChatControlador implements ActionListener {
             try {
                 localChatService.sendMessage(ventanPrincipalChat.txtFldChatPrivado.getText(),
                         ventanPrincipalChat.txtFldIpDestino.getText(),
-                        "1234",
-                        this.ventanPrincipalChat);
+                        "1234");
                 // ips = new String[]{ventanPrincipalChat.txtFldIpDestino.getText(), java.net.InetAddress.getLocalHost().getHostAddress()};
             } catch (RemoteException ex) {
                 throw new RuntimeException(ex);
