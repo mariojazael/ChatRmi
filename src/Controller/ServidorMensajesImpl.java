@@ -22,7 +22,7 @@ public class ServidorMensajesImpl extends UnicastRemoteObject implements Servido
     @Serial
     private static final long serialVersionUID = -6044598747301230549L;
 
-    protected ServidorMensajesImpl() throws RemoteException, InterruptedException { // Los mensajes privados tienen forma de: map <[ipOrigen,ipDestino] : "Hola cliente 2"> y generales son "strings"
+    protected ServidorMensajesImpl() throws RemoteException{ // Los mensajes privados tienen forma de: map <[ipOrigen,ipDestino] : "Hola cliente 2"> y generales son "strings"
     }
 
     @Override

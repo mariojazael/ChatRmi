@@ -16,6 +16,7 @@ import java.util.concurrent.Executors;
 public class VentanaPrincipalChatControlador implements ActionListener {
     VentanPrincipalChat ventanPrincipalChat;
     ServidorMensajes servidorMensajes;
+    localChatServiceImpl localChatService;
     ExecutorService executorService = Executors.newFixedThreadPool(1);
     Runnable buscarMensajesGenerales = () -> {
         while(true){
@@ -30,14 +31,40 @@ public class VentanaPrincipalChatControlador implements ActionListener {
             }
         }
     };
-    public VentanaPrincipalChatControlador(VentanPrincipalChat ventanPrincipalChat, ServidorMensajes servidorMensajes) throws UnknownHostException {
+
+    Runnable listeningTask = () -> {
+        while(true){
+            try {
+                if(localChatService.listenMessages()){
+                    ventanPrincipalChat.txtAreaChatGeneral.setText(ventanPrincipalChat.txtAreaChatGeneral.getText() +
+                            "\n" + Arrays.toString(localChatService.getMessages()));
+                    localChatService.deleteMessages();
+                }
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    };
+
+    public VentanaPrincipalChatControlador(VentanPrincipalChat ventanPrincipalChat,
+                                           localChatService localChatService) throws UnknownHostException {
+        this.ventanPrincipalChat = ventanPrincipalChat;
+        this.localChatService = (localChatServiceImpl) localChatService;
+        ventanPrincipalChat.btnChatPrivadoEnviar.addActionListener(this);
+        ventanPrincipalChat.btnEnviar.addActionListener(this);
+        ventanPrincipalChat.btnEstablecerConexion.addActionListener(this);
+        ventanPrincipalChat.jLabel4.setText("tu ip: " + java.net.InetAddress.getLocalHost().getHostAddress());
+        executorService.submit(listeningTask);
+    }
+    public VentanaPrincipalChatControlador(VentanPrincipalChat ventanPrincipalChat,
+                                           ServidorMensajes servidorMensajes) throws UnknownHostException {
         this.ventanPrincipalChat = ventanPrincipalChat;
         this.servidorMensajes = servidorMensajes;
         ventanPrincipalChat.btnChatPrivadoEnviar.addActionListener(this);
         ventanPrincipalChat.btnEnviar.addActionListener(this);
         ventanPrincipalChat.btnEstablecerConexion.addActionListener(this);
         ventanPrincipalChat.jLabel4.setText("tu ip: " + java.net.InetAddress.getLocalHost().getHostAddress());
-        executorService.submit(buscarMensajesGenerales);
+        // executorService.submit(buscarMensajesGenerales);
     }
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -60,13 +87,16 @@ public class VentanaPrincipalChatControlador implements ActionListener {
             }
         }
         else if(e.getSource() == ventanPrincipalChat.btnChatPrivadoEnviar){
-            String [] ips;
+            // String [] ips;
             try {
-                ips = new String[]{ventanPrincipalChat.txtFldIpDestino.getText(), java.net.InetAddress.getLocalHost().getHostAddress()};
-            } catch (UnknownHostException ex) {
+                localChatService.sendMessage(ventanPrincipalChat.txtFldChatPrivado.getText(),
+                        ventanPrincipalChat.txtFldIpDestino.getText(),
+                        "1234");
+                // ips = new String[]{ventanPrincipalChat.txtFldIpDestino.getText(), java.net.InetAddress.getLocalHost().getHostAddress()};
+            } catch (RemoteException ex) {
                 throw new RuntimeException(ex);
             }
-            Map.Entry<String[], String> entry =  new AbstractMap.SimpleEntry<>(ips, ips[1] + " " + LocalDate.now() + ": " + ventanPrincipalChat.txtFldChatPrivado.getText());
+            /*Map.Entry<String[], String> entry =  new AbstractMap.SimpleEntry<>(ips, ips[1] + " " + LocalDate.now() + ": " + ventanPrincipalChat.txtFldChatPrivado.getText());
             try {
                 servidorMensajes.enviarMensajePrivado(entry);
                 ventanPrincipalChat.txtAreaChatGeneral1.setText("");
@@ -79,6 +109,6 @@ public class VentanaPrincipalChatControlador implements ActionListener {
             } catch (UnknownHostException ex) {
                 throw new RuntimeException(ex);
             }
-        }
+        */}
     }
 }
