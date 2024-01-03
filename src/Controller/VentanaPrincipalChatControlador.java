@@ -4,6 +4,7 @@ import View.VentanPrincipalChat;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serial;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.time.LocalDate;
@@ -16,7 +17,7 @@ import java.util.concurrent.Executors;
 public class VentanaPrincipalChatControlador implements ActionListener {
     VentanPrincipalChat ventanPrincipalChat;
     ServidorMensajes servidorMensajes;
-    localChatServiceImpl localChatService;
+    localChatService localChatService;
     ExecutorService executorService = Executors.newFixedThreadPool(1);
     Runnable buscarMensajesGenerales = () -> {
         while(true){
@@ -35,7 +36,7 @@ public class VentanaPrincipalChatControlador implements ActionListener {
     Runnable listeningTask = () -> {
         while(true){
             try {
-                if(localChatService.listenMessages()){
+                if(!localChatService.listenMessages()){
                     ventanPrincipalChat.txtAreaChatGeneral1.setText(ventanPrincipalChat.txtAreaChatGeneral1.getText() +
                             "\n" + Arrays.toString(localChatService.getMessages()));
                     localChatService.deleteMessages();
@@ -49,7 +50,7 @@ public class VentanaPrincipalChatControlador implements ActionListener {
     public VentanaPrincipalChatControlador(VentanPrincipalChat ventanPrincipalChat,
                                            localChatService localChatService) throws UnknownHostException {
         this.ventanPrincipalChat = ventanPrincipalChat;
-        this.localChatService = (localChatServiceImpl) localChatService;
+        this.localChatService = localChatService;
         ventanPrincipalChat.btnChatPrivadoEnviar.addActionListener(this);
         ventanPrincipalChat.btnEnviar.addActionListener(this);
         ventanPrincipalChat.btnEstablecerConexion.addActionListener(this);
@@ -91,7 +92,8 @@ public class VentanaPrincipalChatControlador implements ActionListener {
             try {
                 localChatService.sendMessage(ventanPrincipalChat.txtFldChatPrivado.getText(),
                         ventanPrincipalChat.txtFldIpDestino.getText(),
-                        "1234");
+                        "1234",
+                        this.ventanPrincipalChat);
                 // ips = new String[]{ventanPrincipalChat.txtFldIpDestino.getText(), java.net.InetAddress.getLocalHost().getHostAddress()};
             } catch (RemoteException ex) {
                 throw new RuntimeException(ex);
