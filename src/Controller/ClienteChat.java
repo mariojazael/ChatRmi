@@ -28,6 +28,7 @@ public class ClienteChat implements Serializable {
 
         VentanPrincipalChat ventanPrincipalChat = new VentanPrincipalChat();
         VentanaPrincipalChatControlador ventanaPrincipalChatControlador = new VentanaPrincipalChatControlador(ventanPrincipalChat, localChatService);
+        localChatService.addViewController(ventanaPrincipalChatControlador);
         ventanPrincipalChat.setVisible(true);
     }
 

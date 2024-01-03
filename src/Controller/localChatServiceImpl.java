@@ -1,7 +1,5 @@
 package Controller;
 
-import View.VentanPrincipalChat;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.rmi.Naming;
@@ -12,6 +10,7 @@ import java.util.List;
 
 public class localChatServiceImpl extends UnicastRemoteObject implements localChatService, Serializable {
     List<String> mensajes = new ArrayList<>();
+    VentanaPrincipalChatControlador ventanaPrincipalChatControlador = null;
     @Serial
     private static final long serialVersionUID = -6044598747301230548L;
     protected localChatServiceImpl() throws RemoteException {
@@ -31,7 +30,8 @@ public class localChatServiceImpl extends UnicastRemoteObject implements localCh
 
     @Override
     public void addMessageToMailBox(String message) throws RemoteException {
-        this.mensajes.add(message);
+        // this.mensajes.add(message);
+        this.ventanaPrincipalChatControlador.pintarGUI(message);
     }
 
     @Override
@@ -42,6 +42,11 @@ public class localChatServiceImpl extends UnicastRemoteObject implements localCh
     @Override
     public void deleteMessages(){
         mensajes.clear();
+    }
+
+    @Override
+    public void addViewController(VentanaPrincipalChatControlador ventanaPrincipalChatControlador) throws RemoteException {
+        this.ventanaPrincipalChatControlador = ventanaPrincipalChatControlador;
     }
 
     public static localChatService obtenerReferenciaObjetoRemoto(String ip, String port){

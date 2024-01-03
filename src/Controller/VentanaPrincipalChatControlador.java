@@ -5,6 +5,7 @@ import View.VentanPrincipalChat;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serial;
+import java.io.Serializable;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.time.LocalDate;
@@ -14,7 +15,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class VentanaPrincipalChatControlador implements ActionListener {
+public class VentanaPrincipalChatControlador implements ActionListener, Serializable {
     @Serial
     private static final long serialVersionUID = -1;
     public VentanPrincipalChat ventanPrincipalChat;
@@ -113,5 +114,11 @@ public class VentanaPrincipalChatControlador implements ActionListener {
                 throw new RuntimeException(ex);
             }
         */}
+    }
+
+    public void pintarGUI(String message) throws RemoteException {
+        ventanPrincipalChat.txtAreaChatGeneral1.setText(ventanPrincipalChat.txtAreaChatGeneral1.getText() +
+                "\n" + message);
+        localChatService.deleteMessages();
     }
 }
