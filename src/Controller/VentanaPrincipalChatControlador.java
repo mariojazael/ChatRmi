@@ -15,6 +15,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class VentanaPrincipalChatControlador implements ActionListener {
+    @Serial
+    private static final long serialVersionUID = -1;
     VentanPrincipalChat ventanPrincipalChat;
     ServidorMensajes servidorMensajes;
     localChatService localChatService;
