@@ -8,4 +8,5 @@ public interface localChatService extends Remote {
     void sendMessageStraightForward(String message) throws RemoteException;
     boolean listenMessages() throws RemoteException;
     Object[] getMessages() throws RemoteException;
+    void deleteMessages() throws RemoteException;
 }

@@ -29,7 +29,7 @@ public class localChatServiceImpl extends UnicastRemoteObject implements localCh
 
     @Override
     public boolean listenMessages() throws RemoteException {
-        return mensajes.isEmpty();
+        return !mensajes.isEmpty();
     }
 
     @Override
@@ -37,6 +37,7 @@ public class localChatServiceImpl extends UnicastRemoteObject implements localCh
         return mensajes.toArray();
     }
 
+    @Override
     public void deleteMessages(){
         mensajes.clear();
     }

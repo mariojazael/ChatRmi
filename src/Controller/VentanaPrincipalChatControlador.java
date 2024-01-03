@@ -36,7 +36,7 @@ public class VentanaPrincipalChatControlador implements ActionListener {
         while(true){
             try {
                 if(localChatService.listenMessages()){
-                    ventanPrincipalChat.txtAreaChatGeneral.setText(ventanPrincipalChat.txtAreaChatGeneral.getText() +
+                    ventanPrincipalChat.txtAreaChatGeneral1.setText(ventanPrincipalChat.txtAreaChatGeneral1.getText() +
                             "\n" + Arrays.toString(localChatService.getMessages()));
                     localChatService.deleteMessages();
                 }

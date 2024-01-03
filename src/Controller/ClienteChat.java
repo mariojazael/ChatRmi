@@ -18,8 +18,6 @@ public class ClienteChat implements Serializable {
     private static final long serialVersionUID = -6044598747301230549L;
 
     public static void main(String[] args) throws UnknownHostException, RemoteException, MalformedURLException {
-        ServidorMensajes servidorMensajes = ClienteChat.obtenerReferenciaObjetoRemoto(args);
-
         Registry registry = LocateRegistry.createRegistry(1234);
 
         localChatServiceImpl localChatService = new localChatServiceImpl();
