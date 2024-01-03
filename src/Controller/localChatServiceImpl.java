@@ -19,14 +19,19 @@ public class localChatServiceImpl extends UnicastRemoteObject implements localCh
 
     @Override
     public void sendMessage(String message, String destinationIp, String port) throws RemoteException {
-        localChatServiceImpl localChatService = (localChatServiceImpl) obtenerReferenciaObjetoRemoto(destinationIp, port);
+        localChatService localChatService = obtenerReferenciaObjetoRemoto(destinationIp, port);
         assert localChatService != null;
-        localChatService.mensajes.add(message);
+        localChatService.addMessageToMailBox(message);
     }
 
     @Override
     public boolean listenMessages() throws RemoteException {
         return mensajes.isEmpty();
+    }
+
+    @Override
+    public void addMessageToMailBox(String message) throws RemoteException {
+        this.mensajes.add(message);
     }
 
     @Override
